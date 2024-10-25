@@ -41,3 +41,23 @@ export async function registerUserAPI(registerDetails: RegisterDetailsProps) {
     throw error;
   }
 }
+
+export async function loggedInUser() {
+  try {
+    const response = await fetch(`${baseUrl}/users`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include'
+    });
+
+    const responseData = await response.json();
+
+    if (response.ok) {
+      return responseData;
+    }
+  } catch (error) {
+    throw error;
+  }
+}

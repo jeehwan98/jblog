@@ -32,7 +32,7 @@ export function InputFieldLogin({ type, name, placeholder, onChange }: InputFiel
       onChange={onChange}
       className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
     />
-  )
+  );
 }
 
 export function InputFieldRegister({ type, name, placeholder }: InputFieldRegisterProps) {
@@ -43,5 +43,5 @@ export function InputFieldRegister({ type, name, placeholder }: InputFieldRegist
       placeholder={placeholder}
       className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
     />
-  )
+  );
 }
