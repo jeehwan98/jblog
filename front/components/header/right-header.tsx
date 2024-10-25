@@ -2,7 +2,6 @@ import React from "react";
 import Notification from "./notification/notification";
 import { ProfileHeader } from "./profile/profile-header";
 import SearchBar from "./search-bar/search-bar";
-import Link from "next/link";
 import { LoginButton } from "@/ui/button/button-ui";
 
 interface UserInfo {
@@ -10,12 +9,13 @@ interface UserInfo {
   userId: string;
   username: string;
   role: string;
-  imageUrl: string | undefined;
-  userStatus: string;
+  imageUrl: string;
+  gender: string;
+  createdDate: Date;
 }
 
 interface RightHeaderProps {
-  userInfo: UserInfo | null;
+  userInfo?: UserInfo | null;
   setUserInfo: React.Dispatch<React.SetStateAction<UserInfo | null>>;
 }
 
@@ -27,7 +27,7 @@ export function RightHeader({ userInfo, setUserInfo }: RightHeaderProps) {
 
       {userInfo ? (
         <ProfileContainer>
-          <ProfileHeader />
+          <ProfileHeader userInfo={userInfo} setUserInfo={setUserInfo} />
         </ProfileContainer>
       ) : (
         <LoginButton href="/login">

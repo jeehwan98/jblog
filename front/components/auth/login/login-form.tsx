@@ -3,9 +3,9 @@
 import { validateLoginDetails } from "@/actions/auth-action";
 import { SubmitButton } from "@/ui/button/button-ui";
 import { FormGroup, InputFieldLogin } from "@/ui/form/form-ui";
-import Link from "next/link";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import AnotherLinks from "./another-links";
 
 export interface LoginErrors {
   userId?: string;
@@ -14,15 +14,15 @@ export interface LoginErrors {
 
 const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-
 export default function LoginForm() {
-
+  const router = useRouter();
   const [errors, setErrors] = useState<{ userId?: string; password?: string } | null>(null);
   const [loginDetails, setLoginDetails] = useState({
     userId: '',
     password: ''
   });
 
+  // handle input field changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoginDetails({
       ...loginDetails,
@@ -30,6 +30,7 @@ export default function LoginForm() {
     });
   }
 
+  // validate and submit the login form
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -40,24 +41,24 @@ export default function LoginForm() {
     }
 
     try {
-      const response = await fetch(`${baseUrl}/auth/login`, {
+      const response = await fetch(`http://localhost:8090/api/v1/auth/login`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
         credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(loginDetails)
       });
 
+      const responseData = await response.json();
+
+      if (responseData.error) {
+        setErrors({ userId: responseData.error });
+        return;
+      }
+
       if (response.ok) {
-        const responseData = await response.json();
         if (responseData.message === 'login success') {
-          redirect('/');
-        } else {
-          return { error: responseData.message };
+          router.push('/');
         }
-      } else {
-        return { error: 'Failed to login' };
       }
     } catch (error) {
       throw error;
@@ -75,7 +76,7 @@ export default function LoginForm() {
             onChange={handleChange}
           />
         </FormGroup>
-        {errors?.userId && <p className="text-xs text-red-500 my-3">{errors.userId}</p>}
+        {errors?.userId && <ErrorMessage message={errors.userId} />}
         <FormGroup>
           <InputFieldLogin
             type="password"
@@ -84,29 +85,14 @@ export default function LoginForm() {
             onChange={handleChange}
           />
         </FormGroup>
-        {errors?.password && <p className="text-xs text-red-500 my-3">{errors.password}</p>}
+        {errors?.password && <ErrorMessage message={errors.password} />}
         <SubmitButton name="로그인" />
+        <AnotherLinks />
       </form>
-      <div className="flex justify-between items-center mt-3">
-        <ForgotPasswordLink />
-        <ToRegisterLink />
-      </div>
     </>
   )
 }
 
-function ForgotPasswordLink() {
-  return (
-    <Link href="/forgot-password" className="text-sm text-blue-400 hover:text-blue-600">
-      비밀번호를 잊으셨나요?
-    </Link>
-  )
-}
-
-function ToRegisterLink() {
-  return (
-    <Link href="/register" className="text-sm text-blue-400 hover:text-blue-600">
-      회원가입
-    </Link>
-  )
+function ErrorMessage({ message }: { message: string }) {
+  return <p className="text-xs text-red-500 my-3">{message}</p>
 }

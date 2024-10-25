@@ -20,7 +20,8 @@ export function LoginButton({ href, children }: { href: string; children: React.
   return (
     <Link
       href={href}
-      className="inline-block px-6 py-3 text-center text-black bg-blue-600 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-300 ease-in-out"
+      // className="inline-block px-2 py-1 text-center text-white bg-black rounded-lg font-bold hover:text-gray-200 hover:bg-gray-900"
+      className="inline-block px-4 py-2 text-center text-black bg-white rounded-lg font-bold hover:text-white hover:bg-black transition-colors duration-300 ease-in-out"
     >
       {children}
     </Link>

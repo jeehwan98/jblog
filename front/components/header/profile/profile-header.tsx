@@ -3,14 +3,44 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import defaultImage from '@/app/defaultImage.jpg';
 import { RiArrowDownSLine } from "react-icons/ri";
+import { logoutAPI } from "@/api/authAPICalls";
+import { useRouter } from "next/navigation";
 
-export function ProfileHeader() {
+interface UserInfo {
+  id: number;
+  userId: string;
+  username: string;
+  role: string;
+  imageUrl: string;
+  gender: string;
+  createdDate: Date;
+}
+
+interface ProfileHeaderProps {
+  userInfo?: UserInfo | null;
+  setUserInfo: React.Dispatch<React.SetStateAction<UserInfo | null>>;
+}
+
+export function ProfileHeader({ userInfo, setUserInfo }: ProfileHeaderProps) {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false); // dropdown menu from profile
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const toggleDropdown = () => {
-    setIsOpen(!isOpen);
+    setIsOpen((prev) => !prev);
   };
+
+  const closeDropdown = () => setIsOpen(false);
+
+  const handleLogout = async () => {
+    const logoutResult = await logoutAPI();
+    if (logoutResult === 'success') {
+      setIsOpen(false);
+      if (setUserInfo) setUserInfo(null);
+      router.push('/');
+      router.refresh();
+    }
+  }
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -41,29 +71,43 @@ export function ProfileHeader() {
 
       {/* dropdown menu */}
       {isOpen && (
-        <DropdownMenu />
+        <DropdownMenu>
+          <HeaderProfileNavLink href="/my-blog" onClick={closeDropdown}>내 블로그</HeaderProfileNavLink>
+          <HeaderProfileNavLink href="#" onClick={closeDropdown}>설정</HeaderProfileNavLink>
+          <LogoutNavLink onClick={handleLogout}>로그아웃</LogoutNavLink>
+        </DropdownMenu>
       )}
     </div>
   );
 }
 
-function DropdownMenu() {
+function DropdownMenu({ children }: { children: React.ReactNode }) {
   return (
     <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 z-10">
-      <HeaderProfileNavLink href="/my-blog">내 블로그</HeaderProfileNavLink>
-      <HeaderProfileNavLink href="#">설정</HeaderProfileNavLink>
-      <HeaderProfileNavLink href="#">로그아웃</HeaderProfileNavLink>
+      {children}
     </div>
   )
 }
 
-function HeaderProfileNavLink({ href, children }: { href: string, children: React.ReactNode }) {
+function HeaderProfileNavLink({ href, onClick, children }: { href: string, onClick: () => void, children: React.ReactNode }) {
   return (
     <Link
       href={href}
       className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+      onClick={onClick}
     >
       {children}
     </Link>
+  )
+}
+
+function LogoutNavLink({ children, onClick }: { children: React.ReactNode, onClick: () => void }) {
+  return (
+    <a
+      className="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:cursor-pointer"
+      onClick={onClick}
+    >
+      {children}
+    </a>
   )
 }

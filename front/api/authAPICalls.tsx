@@ -1,6 +1,5 @@
-"use server";
-
 import { redirect } from "next/navigation";
+import { currentlyLoggedInUserURL, logoutURL, registerUserUrl } from "./api-routes";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -14,7 +13,7 @@ interface RegisterDetailsProps {
 
 export async function registerUserAPI(registerDetails: RegisterDetailsProps) {
   try {
-    const response = await fetch(`${baseUrl}/auth/register`, {
+    const response = await fetch(registerUserUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -42,20 +41,38 @@ export async function registerUserAPI(registerDetails: RegisterDetailsProps) {
   }
 }
 
-export async function loggedInUser() {
+export async function loggedInUserAPI() {
   try {
-    const response = await fetch(`${baseUrl}/users`, {
+    const response = await fetch(currentlyLoggedInUserURL, {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include'
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
     });
 
     const responseData = await response.json();
+    console.log('🥰:', responseData);
 
     if (response.ok) {
       return responseData;
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function logoutAPI() {
+  try {
+    const response = await fetch(logoutURL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include'
+    });
+
+    if (response.ok) {
+      const responseData = await response.json();
+      if (responseData.message === 'logout success') {
+        return 'success';
+      }
     }
   } catch (error) {
     throw error;

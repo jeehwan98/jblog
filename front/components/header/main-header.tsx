@@ -3,32 +3,36 @@
 import { useEffect, useState } from "react";
 import LeftHeader from "./left-header";
 import { RightHeader } from "./right-header";
-import { loggedInUser } from "@/api/authAPICalls";
-import { userInfo } from "os";
+import { loggedInUserAPI } from "@/api/authAPICalls";
 
 interface UserInfo {
   id: number;
   userId: string;
   username: string;
   role: string;
-  imageUrl: string | undefined;
-  userStatus: string;
+  imageUrl: string;
+  gender: string;
+  createdDate: Date;
 }
 
 export default function Header() {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
   useEffect(() => {
-    async function fetchUserData() {
-      const userDetails = await loggedInUser();
-      if (userDetails.message === 'user not logged in') {
-        setUserInfo(null);
-      } else {
-        setUserInfo(userDetails);
+    const fetchedUserInfo = async () => {
+      try {
+        const user = await loggedInUserAPI();
+        if (user.message === 'user not logged in') {
+          setUserInfo(null);
+        } else {
+          setUserInfo(user);
+        }
+      } catch (error) {
+        console.error('Error fetching user info:', error);
       }
-    }
+    };
 
-    fetchUserData();
+    fetchedUserInfo();
   }, []);
 
   return (
