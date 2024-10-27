@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import { useFormStatus } from "react-dom";
+import { GoArrowLeft } from "react-icons/go";
 
 export function SubmitButton({ name }: { name: string }) {
   const { pending } = useFormStatus();
@@ -26,4 +27,12 @@ export function LoginButton({ href, children }: { href: string; children: React.
       {children}
     </Link>
   );
+}
+
+export function PreviousPageButton() {
+  return (
+    <Link href="../" className="text-black px-4 py-2 rounded flex items-center hover:bg-gray-100">
+      <GoArrowLeft className="mr-2" />나가기
+    </Link>
+  )
 }

@@ -20,7 +20,7 @@ function HeaderNavBar() {
   return (
     <nav className="hidden md:flex space-x-6">
       <HeaderNavLink href="/">홈</HeaderNavLink>
-      <HeaderNavLink href="/">피드</HeaderNavLink>
+      <HeaderNavLink href="/post">작성</HeaderNavLink>
       <HeaderNavLink href="/">포럼</HeaderNavLink>
     </nav>
   )
