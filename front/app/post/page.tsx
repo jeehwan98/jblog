@@ -2,11 +2,11 @@
 
 import React, { useState } from 'react';
 import 'react-quill-new/dist/quill.snow.css';
-import EditSection from '@/components/post/edit-section';
 import PreviewSection from '@/components/post/preview-section';
+import EditSection from '@/components/post/editor-section';
 
 export default function BlogPostPage() {
-  const [blog, setBlog] = useState({
+  const [blog, setBlog] = useState<Blog>({
     title: '',
     tags: [],
     content: ''
@@ -21,9 +21,5 @@ export default function BlogPostPage() {
 }
 
 function PostContainer({ children }: { children: React.ReactNode }) {
-  return (
-    <main className="h-screen w-full text-black flex">
-      {children}
-    </main>
-  )
+  return <main className="h-screen w-full text-black flex">{children}</main>;
 }

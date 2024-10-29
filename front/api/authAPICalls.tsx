@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { currentlyLoggedInUserURL, logoutURL, registerUserUrl } from "./api-routes";
+import { currentlyLoggedInUserURL, logoutURL, registerUserURL } from "./api-routes";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -13,7 +13,7 @@ interface RegisterDetailsProps {
 
 export async function registerUserAPI(registerDetails: RegisterDetailsProps) {
   try {
-    const response = await fetch(registerUserUrl, {
+    const response = await fetch(registerUserURL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
