@@ -4,6 +4,7 @@ import BlogCard from "@/components/blogs/blog-card";
 import Body from "@/components/body";
 
 export default function HomePage() {
+
   return (
     <Body>
       <div className="max-w-[90%] m-auto">
