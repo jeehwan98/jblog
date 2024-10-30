@@ -6,5 +6,5 @@ export const currentlyLoggedInUserURL = `${baseUrl}/users`;
 export const logoutURL = `${baseUrl}/auth/logout`;
 
 // blog post
-export const postBlogURL = `${baseUrl}/blog`;
+export const postBlogURL = `${baseUrl}/blogs`;
 

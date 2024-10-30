@@ -1,7 +1,7 @@
 interface Blog {
   title: string;
   tags: string[];
-  content: string;
+  context: string;
 }
 
 interface PreviewSectionProps {
@@ -12,7 +12,7 @@ export default function PreviewSection({ blog }: PreviewSectionProps) {
   return (
     <PreviewSectionContainer>
       <h1 className="text-4xl font-bold mb-2">{blog.title || ""}</h1>
-      {/* <div className="flex items-center mb-4 flex-wrap">
+      <div className="flex items-center mb-4 flex-wrap">
         {blog.tags.map((tag, index) => (
           <span
             key={index}
@@ -21,10 +21,10 @@ export default function PreviewSection({ blog }: PreviewSectionProps) {
             {tag}
           </span>
         ))}
-      </div> */}
+      </div>
       <div
         className="prose"
-        dangerouslySetInnerHTML={{ __html: blog.content || "" }}
+        dangerouslySetInnerHTML={{ __html: blog.context || "" }}
       />
     </PreviewSectionContainer>
   )

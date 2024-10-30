@@ -40,6 +40,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/users/**").permitAll()
                         .requestMatchers("/api/v1/products/**").permitAll()
                         .requestMatchers("/api/v1/category/**").permitAll()
+                        .requestMatchers("/api/v1/blogs/**").permitAll()
                         .anyRequest().permitAll()
                 )
         .build();

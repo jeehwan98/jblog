@@ -1,8 +1,6 @@
 import { redirect } from "next/navigation";
 import { currentlyLoggedInUserURL, logoutURL, registerUserURL } from "./api-routes";
 
-const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-
 interface RegisterDetailsProps {
   userId: string;
   password: string;

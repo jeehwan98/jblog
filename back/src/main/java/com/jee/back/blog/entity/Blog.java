@@ -1,9 +1,11 @@
 package com.jee.back.blog.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jee.back.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,8 +23,8 @@ public class Blog {
     private int blogPostId;
     @Column(name = "title", nullable = false)
     private String title;
-    @Column(name = "summary", nullable = false)
-    private String summary;
+//    @Column(name = "summary", nullable = false)
+//    private String summary;
     @Column(name = "context", nullable = false)
     private String context;
     @Column(name = "image_url", nullable = true)
@@ -37,11 +39,13 @@ public class Blog {
     private int viewCount = 0;
     @Column(name = "likes_count", nullable = false)
     private int likesCount = 0;
-    @Column(name = "status", nullable = false)
-    private String status = "draft"; // draft : 임시 저장, published : 출간
+//    @Column(name = "status", nullable = false)
+//    private String status = "draft"; // draft : 임시 저장, published : 출간
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @ToString.Exclude
+    @JsonIgnore
     private User user;
 
     @ManyToMany
@@ -50,6 +54,8 @@ public class Blog {
             joinColumns = @JoinColumn(name = "blog_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
+    @ToString.Exclude
+    @JsonIgnore
     private List<Tags> tags = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -61,5 +67,7 @@ public class Blog {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @ToString.Exclude
+    @JsonIgnore
     private List<Comments> comments = new ArrayList<>();
 }

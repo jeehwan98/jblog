@@ -9,10 +9,8 @@ interface RegisterBlogProps {
   content: string;
 }
 
-const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-
 export async function postBlogAPI(registerBlog: RegisterBlogProps) {
-  console.log('register blog:?', registerBlog);
+  console.log('블로그에 저장할 정보들:', registerBlog);
   try {
     const response = await fetch(postBlogURL, {
       method: 'POST',
@@ -26,10 +24,11 @@ export async function postBlogAPI(registerBlog: RegisterBlogProps) {
     const responseData = await response.json();
     if (response.ok) {
       if (responseData.message === 'blog post success') {
-        redirect('/');
-      };
+        console.log('success!');
+        // redirect("/");
+      }
     };
   } catch (error) {
     throw error;
-  }
-}
+  };
+};
