@@ -72,7 +72,7 @@ export function ProfileHeader({ userInfo, setUserInfo }: ProfileHeaderProps) {
       {/* dropdown menu */}
       {isOpen && (
         <DropdownMenu>
-          <HeaderProfileNavLink href="/my-blog" onClick={closeDropdown}>내 블로그</HeaderProfileNavLink>
+          <HeaderProfileNavLink href={`${userInfo?.userId}`} onClick={closeDropdown}>내 블로그</HeaderProfileNavLink>
           <HeaderProfileNavLink href="#" onClick={closeDropdown}>설정</HeaderProfileNavLink>
           <LogoutNavLink onClick={handleLogout}>로그아웃</LogoutNavLink>
         </DropdownMenu>
