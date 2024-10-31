@@ -2,13 +2,30 @@ import Image from "next/image";
 import Link from "next/link";
 import blogCard from '@/app/defaultImage.jpg';
 import React from "react";
+import DOMPurify from "dompurify";
 
-export default function BlogCard() {
+interface Blog {
+  blogPostId: number;
+  context: string;
+  likesCount: number;
+  viewCount: number;
+  publishedAt: Date;
+  updatedAt: Date;
+  title: string;
+  visibilityStatus: string;
+}
+
+interface BlogProps {
+  blog: Blog;
+}
+
+export default function BlogCard({ blog }: BlogProps) {
+  const { blogPostId, title, context, publishedAt } = blog;
   return (
     <div className="flex justify-center align-middle shadow-md transition-transform duration-300 ease-in-out hover:-translate-y-2">
       <div className="max-w-full h-auto mb-2 cursor-pointer">
         <div className="max-w-full">
-          <Link href="/blogs/blog-id">
+          <Link href={`${blogPostId}`}>
             <Image
               className="max-w-full h-auto mb-2"
               src={blogCard}
@@ -17,7 +34,7 @@ export default function BlogCard() {
               height={400}
             />
           </Link>
-          <BlogDetails />
+          <BlogDetails title={title} context={context} />
           <CardBottom>
             <BlogUser />
             <ReadMoreButton />
@@ -36,11 +53,15 @@ function CardBottom({ children }: { children: React.ReactNode }) {
   )
 }
 
-function BlogDetails() {
+function BlogDetails({ title, context }: { title: string, context: string }) {
+  const sanitizedContext = DOMPurify.sanitize(context);
   return (
     <>
-      <div className="text-xl font-bold p-2">blog title</div>
-      <div className="p-2">조회수 없어서 우째 생각해 이거치 실험해 그에 대해...</div>
+      <div className="text-xl font-bold p-2">{title}</div>
+      <div
+        className="p-2"
+        dangerouslySetInnerHTML={{ __html: sanitizedContext }}
+      />
     </>
   )
 }

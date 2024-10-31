@@ -1,5 +1,6 @@
 package com.jee.back.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.jee.back.blog.entity.Blog;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -39,5 +40,6 @@ public class User {
             orphanRemoval = true,
             fetch = FetchType.EAGER
     )
+    @JsonBackReference
     private List<Blog> blogs;
 }

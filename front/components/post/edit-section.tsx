@@ -3,10 +3,11 @@
 import { PreviousPageButton } from "@/ui/button/button-ui"
 import dynamic from "next/dynamic";
 import 'react-quill-new/dist/quill.snow.css';
-import { useCallback, useState } from "react";
-import { ContextArea, EditorWrapper, FooterBar, PublishButton, TagWrapper } from "./editorUI";
+import { useState } from "react";
+import { ContextArea, EditorWrapper, FooterBar, PublishButton, TagWrapper } from "./ui/editorUI";
 import { validateBlogPost } from "@/validation/blog-post";
-import { postBlogURL } from "@/api/api-routes";
+import { blogURL } from "@/api/api-routes";
+import Editor from "./editor";
 
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
@@ -147,16 +148,6 @@ export default function EditSection({ blog, setBlog }: EditSectionProps) {
     }));
   };
 
-  const modules = {
-    toolbar: [
-      [{ header: [1, 2, 3, 4, 5, 6, false] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
-      [{ align: ["right", "center", "justify"] }],
-      [{ list: "ordered" }, { list: "bullet" }],
-      ["link", "image"],
-    ],
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -172,8 +163,10 @@ export default function EditSection({ blog, setBlog }: EditSectionProps) {
       tags: blog.tags,
     };
 
+    console.log('written context:', blog.context);
+
     try {
-      const response = await fetch(postBlogURL, {
+      const response = await fetch(blogURL, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -213,13 +206,9 @@ export default function EditSection({ blog, setBlog }: EditSectionProps) {
               onBlur={handleBlur}
             />
           </TagWrapper>
-          <ReactQuill
-            theme="snow"
-            className="h-96 mb-20"
-            placeholder="내용을 입력하세요..."
+          <Editor
             value={blog.context}
             onChange={handleContextChange}
-            modules={modules}
           />
         </ContextArea>
         <FooterBar>
