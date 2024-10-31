@@ -1,6 +1,7 @@
 package com.jee.back.blog.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.jee.back.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -46,6 +47,7 @@ public class Blog {
     @JoinColumn(name = "user_id", nullable = false)
     @ToString.Exclude
     @JsonIgnore
+//    @JsonManagedReference
     private User user;
 
     @ManyToMany

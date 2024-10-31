@@ -24,7 +24,13 @@ export default function PreviewSection({ blog }: PreviewSectionProps) {
       </div>
       <div
         className="prose"
-        dangerouslySetInnerHTML={{ __html: blog.context || "" }}
+        dangerouslySetInnerHTML={{
+          __html: `${blog.context}`
+        }}
+        style={{
+          overflow: 'hidden',
+          whiteSpace: 'pre-wrap',
+        }}
       />
     </PreviewSectionContainer>
   )
