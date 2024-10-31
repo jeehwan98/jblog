@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import LeftHeader from "./left-header";
 import { RightHeader } from "./right-header";
 import { loggedInUserAPI } from "@/api/authAPICalls";
-import { currentlyLoggedInUserURL } from "@/api/api-routes";
 
 interface UserInfo {
   id: number;
