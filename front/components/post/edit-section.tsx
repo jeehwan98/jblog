@@ -163,8 +163,6 @@ export default function EditSection({ blog, setBlog }: EditSectionProps) {
       tags: blog.tags,
     };
 
-    console.log('written context:', blog.context);
-
     try {
       const response = await fetch(blogURL, {
         method: 'POST',
@@ -184,7 +182,6 @@ export default function EditSection({ blog, setBlog }: EditSectionProps) {
       console.error("API Error:", error);
     }
   };
-
 
   return (
     <EditorWrapper>

@@ -22,4 +22,4 @@ export default function BlogPostPage() {
 
 function PostContainer({ children }: { children: React.ReactNode }) {
   return <main className="h-screen w-full text-black flex">{children}</main>;
-} 3
+};
