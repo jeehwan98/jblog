@@ -1,14 +1,12 @@
 "use client";
 
 import { checkUserURL } from "@/api/api-routes";
-import { loggedInUserAPI } from "@/api/authAPICalls";
 import Body from "@/components/body";
-import { useEffect, useState } from "react";
+import ProfileSection from "@/components/profile/profile-section";
+import { use, useEffect, useState } from "react";
 
 interface UsernameProps {
-  params: {
-    username: string
-  }
+  params: Promise<{ username: string }>;
 }
 
 interface UserInfo {
@@ -22,12 +20,13 @@ interface UserInfo {
 }
 
 export default function ProfilePage({ params }: UsernameProps) {
+  const { username } = use(params);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
   useEffect(() => {
     const fetchedUserInfo = async () => {
       try {
-        const response = await fetch(`${checkUserURL}/${params.username}`, {
+        const response = await fetch(`${checkUserURL}/${username}`, {
           method: "GET",
           credentials: "include",
           headers: { 'Content-Type': 'application/json' }
@@ -50,7 +49,7 @@ export default function ProfilePage({ params }: UsernameProps) {
 
   return (
     <Body>
-      {userInfo?.role}
+      <ProfileSection users={userInfo} />
     </Body>
   )
 }

@@ -133,4 +133,19 @@ public class AuthController {
 
         return ResponseEntity.ok().body("logout completed");
     }
+
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<?> checkLoggedInUser(@PathVariable("userId") String userId) {
+        HashMap<String, Object> responseMap = new HashMap<>();
+        Optional<User> userExists = userRepository.findUserByUserId(userId);
+
+        if (userExists.isEmpty()) {
+            responseMap.put("message", "userId is null");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseMap);
+        }
+
+        User user = userExists.get();
+        responseMap.put("message", user);
+        return ResponseEntity.ok(responseMap);
+    }
 }
