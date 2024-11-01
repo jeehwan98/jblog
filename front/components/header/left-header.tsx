@@ -12,7 +12,7 @@ export default function LeftHeader() {
 
 function HeaderLogo() {
   return (
-    <div className="mr-6 text-xl text-black hover:cursor-pointer">JBlog</div>
+    <div className="mr-6 text-xl text-black hover:cursor-pointer hover:scale-105 transition duration-200">JBlog</div>
   );
 }
 

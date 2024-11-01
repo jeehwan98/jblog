@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { currentlyLoggedInUserURL, logoutURL, registerUserURL } from "./api-routes";
+import { userURL, logoutURL, registerUserURL } from "./api-routes";
 
 interface RegisterDetailsProps {
   userId: string;
@@ -41,7 +41,7 @@ export async function registerUserAPI(registerDetails: RegisterDetailsProps) {
 
 export async function loggedInUserAPI() {
   try {
-    const response = await fetch(currentlyLoggedInUserURL, {
+    const response = await fetch(userURL, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
