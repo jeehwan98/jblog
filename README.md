@@ -1,7 +1,7 @@
 # blog page
 Blog program
 
-To install dependencies
+To install dependencies:
 
 ```bash
 npm install
